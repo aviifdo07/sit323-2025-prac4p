@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Calculator Service</title>
+<script>
+async function sendCalculation(operation) {
+    const num1 = parseFloat(document.getElementById('num1').value);
+    const num2 = parseFloat(document.getElementById('num2').value);
+    const response = await fetch(`/${operation}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ num1, num2 })
+    });
+    const data = await response.json();
+    alert('Result: ' + data.result);
+}
+</script>
+</head>
+<body>
+<h1>Calculator Service</h1>
+<label for="num1">Number 1:</label>
+<input type="text" id="num1" name="num1"><br><br>
+<label for="num2">Number 2:</label>
+<input type="text" id="num2" name="num2"><br><br>
+<button onclick="sendCalculation('add')">Add</button>
+<button onclick="sendCalculation('subtract')">Subtract</button>
+<button onclick="sendCalculation('multiply')">Multiply</button>
+<button onclick="sendCalculation('divide')">Divide</button>
+</body>
+</html>
