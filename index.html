@@ -2,30 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Enhanced Calculator Service</title>
+<title>Calculator Service</title>
 <script>
-async function performOperation(operation) {
-    let num1 = parseFloat(document.getElementById('num1').value);
-    let num2 = parseFloat(document.getElementById('num2').value);
-    let requestBody = { num1, num2 };
-
-    // Adjusting requestBody based on the operation
-    if (operation === 'sqrt') {
-        num1 = parseFloat(document.getElementById('number').value);
-        requestBody = { number: num1 };
-    } else if (operation === 'power') {
-        const exponent = parseFloat(document.getElementById('exponent').value);
-        requestBody = { base: num1, exponent };
-    } else if (operation === 'modulo') {
-        requestBody = { dividend: num1, divisor: num2 };
-    }
-
+async function sendCalculation(operation) {
+    const num1 = parseFloat(document.getElementById('num1').value);
+    const num2 = parseFloat(document.getElementById('num2').value);
     const response = await fetch(`/${operation}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify({ num1, num2 })
     });
     const data = await response.json();
     alert('Result: ' + data.result);
@@ -33,32 +20,14 @@ async function performOperation(operation) {
 </script>
 </head>
 <body>
-<h1>Enhanced Calculator Service</h1>
-
+<h1>Calculator Service</h1>
 <label for="num1">Number 1:</label>
 <input type="text" id="num1" name="num1"><br><br>
 <label for="num2">Number 2:</label>
 <input type="text" id="num2" name="num2"><br><br>
-
-<!-- Buttons for basic operations -->
-<button onclick="performOperation('add')">Add</button>
-<button onclick="performOperation('subtract')">Subtract</button>
-<button onclick="performOperation('multiply')">Multiply</button>
-<button onclick="performOperation('divide')">Divide</button>
-
-<!-- Additional inputs and buttons for new operations -->
-<br><br>
-<label for="exponent">Exponent:</label>
-<input type="text" id="exponent" name="exponent"><br><br>
-<button onclick="performOperation('power')">Exponentiation</button>
-
-<br><br>
-<label for="number">Number (for Square Root):</label>
-<input type="text" id="number" name="number"><br><br>
-<button onclick="performOperation('sqrt')">Square Root</button>
-
-<br><br>
-<button onclick="performOperation('modulo')">Modulo</button>
-
+<button onclick="sendCalculation('add')">Add</button>
+<button onclick="sendCalculation('subtract')">Subtract</button>
+<button onclick="sendCalculation('multiply')">Multiply</button>
+<button onclick="sendCalculation('divide')">Divide</button>
 </body>
 </html>
